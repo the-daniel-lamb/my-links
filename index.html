@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>iPhone‑Style Home Screen</title>
+    <style>
+      :root {
+        --icon-size: clamp(56px, 16vw, 88px);
+        --icon-radius: calc(var(--icon-size) * 0.26);
+        --icon-gap: calc(var(--icon-size) * 0.25);
+        /* Label font now shrinks further and can grow on desktop */
+        --label-size: clamp(8px, 2.4vw, 14px);
+      }
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        padding-top: calc(env(safe-area-inset-top, 0px) + 4vh);
+        display: flex; justify-content: center; align-items: flex-start;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        color: #fff;
+        background: url("https://applescoop.org/image/wallpapers/iphone/apple-ios-17-stock-iphone-15-15-plus-15-pro-and-15-pro-max-default-blue-red-gradient-colors-25-10-2024-1729892255-hd-wallpaper.jpg") center/cover no-repeat fixed;
+      }
+
+      /* --- Grid of icons --- */
+      #grid {
+        display: grid;
+        grid-template-columns: repeat(4, var(--icon-size));
+        gap: var(--icon-gap);
+        max-width: calc(4 * var(--icon-size) + 3 * var(--icon-gap));
+        margin-top: var(--icon-gap);
+      }
+
+      a.app {
+        width: var(--icon-size);
+        text-align: center;
+        text-decoration: none;
+        color: inherit;
+        font-size: var(--label-size);
+        line-height: 1.15;
+      }
+
+      a.app span {
+        display: block;
+        max-width: 100%;
+        word-break: break-word;
+        white-space: normal;
+        hyphens: auto;
+      }
+
+      .app-icon {
+        width: var(--icon-size);
+        height: var(--icon-size);
+        margin-bottom: 0.45em;
+        border-radius: var(--icon-radius);
+        background-size: cover;
+        background-position: center;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.25);
+        transition: transform 0.1s ease-in-out;
+      }
+
+      a.app:active .app-icon,
+      a.app:hover .app-icon { transform: scale(0.95); }
+    </style>
+  </head>
+  <body>
+    <div id="grid"></div>
+
+    <script>
+      /* --- Hard‑coded apps --- */
+      const apps = [
+        { name: "Personal IG",  link: "https://www.instagram.com/the.daniel.lamb",  image: "img/personal_ig.jpg" },
+        { name: "Personal X",  link: "https://x.com/thedaniellamb",              image: "img/personal_x.jpg" },
+        { name: "ethelcainmemes", link: "https://www.instagram.com/ethelcainmemes", image: "img/ethelcainmemes.jpg" },
+        { name: "Raecists",      link: "https://www.instagram.com/raecists",       image: "img/raecists.jpg" },
+        { name: "Raecysts",      link: "https://www.instagram.com/raecyts",        image: "img/raecysts.jpg" },
+        { name: "Letterboxd",    link: "https://letterboxd.com/The_Daniel_Lamb",     image: "img/letterboxd.jpg" },
+      ];
+
+      const grid = document.getElementById("grid");
+      apps.forEach(({ name, link, image }) => {
+        const anchor = Object.assign(document.createElement("a"), {
+          className: "app", href: link, target: "_blank", rel: "noopener noreferrer", ariaLabel: name,
+        });
+        const icon = document.createElement("div");
+        icon.className = "app-icon";
+        icon.style.backgroundImage = `url(${image})`;
+        const label = document.createElement("span");
+        label.textContent = name;
+        anchor.append(icon, label);
+        grid.append(anchor);
+      });
+    </script>
+  </body>
+</html>
